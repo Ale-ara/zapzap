@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecionamento para WhatsApp</title>
+</head>
+<body>
+    <h1>Redirecionamento para WhatsApp</h1>
+    <p>Clique no botão abaixo para enviar uma mensagem no WhatsApp:</p>
+    <button id="redirectButton">Enviar Mensagem</button>
+    
+    <script>
+        // URL da planilha do Google Sheets
+        const sheetUrl = 'https://docs.google.com/spreadsheets/d/1880NSUCwQxr8rcsX1bYaelvpSqjfhx8bDjC38p497ag/edit?usp=sharing';
+
+        // Função para buscar o link do WhatsApp na planilha
+        async function fetchWhatsAppLink() {
+            try {
+                const response = await fetch(sheetUrl);
+                const text = await response.text();
+                const lines = text.split('\n');
+                const link = lines[0].split(',')[0]; // Assume que o link do WhatsApp está na primeira célula da primeira linha
+
+                return link;
+            } catch (error) {
+                console.error('Erro ao buscar dados da planilha:', error);
+                return null;
+            }
+        }
+
+        // Função para redirecionar para o link do WhatsApp
+        async function redirectToWhatsApp() {
+            const whatsappLink = await fetchWhatsAppLink();
+            if (whatsappLink) {
+                window.location.href = whatsappLink;
+            } else {
+                alert('Não foi possível obter o link do WhatsApp. Verifique se a planilha está acessível.');
+            }
+        }
+
+        // Configura o botão para chamar a função de redirecionamento ao ser clicado
+        document.getElementById('redirectButton').addEventListener('click', redirectToWhatsApp);
+    </script>
+</body>
+</html>
