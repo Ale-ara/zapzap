@@ -22,7 +22,7 @@
                 const lines = text.split('\n');
                 const link = lines[0].split(',')[0]; // Assume que o link do WhatsApp está na primeira célula da primeira linha
 
-                return link;
+                return link.trim(); // Remove espaços em branco do início e do fim do link
             } catch (error) {
                 console.error('Erro ao buscar dados da planilha:', error);
                 return null;
